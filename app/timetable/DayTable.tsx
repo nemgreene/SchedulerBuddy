@@ -13,10 +13,12 @@ export default function DayTable({ timeSlots = [] }: DayTableProps) {
 
   return (
     <Box
+      className="DayTableContainer"
       sx={{
         width: "100%",
         userSelect: "none",
         position: "realtive",
+        height: "100%",
       }}
       ref={ref}
     >
@@ -25,12 +27,13 @@ export default function DayTable({ timeSlots = [] }: DayTableProps) {
         sx={{
           flexWrap: "nowrap",
           width: "100%",
-          borderTop: "1px solid black",
+          height: "100%",
         }}
       >
         <div
           style={{
             width: "100%",
+            height: "100%",
             // transform: `translateX(${width * 0.5 + 1}px)`,
           }}
         >
@@ -39,8 +42,30 @@ export default function DayTable({ timeSlots = [] }: DayTableProps) {
               <pattern
                 id="grid"
                 width={`${width}`}
-                height={`100%`}
+                height="1000"
                 patternUnits="userSpaceOnUse"
+              >
+                <rect width={`${width}`} height="100" fill="url(#smallGrid)" />
+                <path
+                  d="M 0 0 L 0 1000"
+                  fill="none"
+                  stroke="gray"
+                  strokeWidth="2"
+                />
+              </pattern>
+            </defs>
+
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+        {/* <svg width="100%" height="300px" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern
+                id="grid"
+                width={`${width}`}
+                // height={`100%`}
+                height={"1px"}
+                patternUnits=""
               >
                 <path
                   d={`M 0 0 L 0 0 0 ${width}`}
@@ -51,9 +76,8 @@ export default function DayTable({ timeSlots = [] }: DayTableProps) {
               </pattern>
             </defs>
 
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
+            <rect width="100%" height="100px" fill="url(#grid)" />
+          </svg> */}
         {/* {timeSlots.map((v, i) => (
           <Grid
             key={i}

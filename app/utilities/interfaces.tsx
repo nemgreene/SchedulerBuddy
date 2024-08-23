@@ -41,12 +41,6 @@ export interface AllocationInterface {
   blocks: Array<AllocationBlockInterface>;
 }
 
-export interface ComputeInterface {
-  blocks: OutputBlock[];
-  name?: string;
-  id?: string;
-}
-
 export interface DayInterface {
   allocations: Array<AllocationInterface>;
   assets: Array<AllocationInterface>;
@@ -57,12 +51,6 @@ export type NiceNames = {
   name: string;
   id: string;
 };
-
-export interface StructuredData {
-  allocations: AllocationBlockInterface[];
-  locations: AllocationBlockInterface[];
-  assets: AllocationBlockInterface[];
-}
 
 export interface TimelineData {
   [key: string]: {
@@ -80,8 +68,21 @@ export interface PhenomeBlock {
   assets: AllocationBlockInterface;
   locations: AllocationBlockInterface;
 }
+// ------------------------------------------Output---------------------------------
+
+export interface StructuredData {
+  allocations: AllocationBlockInterface[];
+  locations: AllocationBlockInterface[];
+  assets: AllocationBlockInterface[];
+}
+
 export interface OutputBlock {
   allocations: AllocationBlockInterface[];
   assets: AllocationBlockInterface[];
   locations: AllocationBlockInterface[];
 }
+export interface OutputInterface {
+  [key: string]: StructuredData;
+}
+
+export type DayCardVariant = "compact" | "default";

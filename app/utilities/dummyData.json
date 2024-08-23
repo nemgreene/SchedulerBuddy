@@ -84,7 +84,7 @@
           }
         },
         {
-          "ratio": [3, 1],
+          "ratio": [2, 1],
           "timeStart": "11:00",
           "timeEnd": "11:45",
           "matrix": {
@@ -94,20 +94,6 @@
               { "id": "asset_obrien", "name": "O'Brien" },
               { "id": "asset_riley", "name": "Riley" },
               { "id": "location_y6", "name": "Y6" }
-            ],
-            "P-": []
-          }
-        },
-        {
-          "ratio": [1, 5],
-          "timeStart": "11:45",
-          "timeEnd": "12:15",
-          "matrix": {
-            "I+": [{ "id": "location_y6", "name": "Y6" }],
-            "I-": [],
-            "P+": [
-              { "id": "asset_obrien", "name": "O'Brien" },
-              { "id": "asset_riley", "name": "Riley" }
             ],
             "P-": []
           }

@@ -1,10 +1,11 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 import { DateSlice } from "../Redux/DateSlice";
 import {
   AllocationBlockInterface,
+  DayCardVariant,
   MartrixChildInterface,
   NiceNames,
 } from "../utilities/interfaces";
@@ -14,16 +15,15 @@ import MatrixTable from "../components/MatrixTable";
 
 interface DayCardProps {
   data: AllocationBlockInterface;
-  variant?: "compact" | "default" | "output";
+  variant: DayCardVariant;
   niceNames: NiceNames[];
   yOffset?: number;
   height?: number;
 }
 
-export default function DayCard({
+export default memo(function DayCard({
   data,
   variant = "default",
-  niceNames,
   yOffset = 0,
   height = 0,
 }: DayCardProps) {
@@ -54,17 +54,14 @@ export default function DayCard({
     };
   };
 
-  const [cardDimensions, setCardDimensions] = React.useState<{
-    elapsed: number;
-    duration: number;
-    width: number;
-    ml: number;
-  }>(dims(data.timeStart, data.timeEnd));
+  const cardDimensions = dims(data.timeStart, data.timeEnd);
 
   return (
     <Box
       className="dayCardContainer"
       sx={{
+        touchAction: "none",
+        userSelect: "none",
         position: "absolute",
         bgcolor: (t) => t.palette.secondary.main,
         display: "flex",
@@ -72,7 +69,7 @@ export default function DayCard({
         borderRadius: "10px",
         overflow: "hidden",
         width: `${cardDimensions.width}%`,
-        transform: `translate(${cardDimensions.ml}%, ${yOffset}%) scaleX(99%)`,
+        transform: `translate(${cardDimensions.ml}%, ${yOffset}%)`,
         height: height ? `${height}%` : "100%",
       }}
     >
@@ -95,7 +92,7 @@ export default function DayCard({
         r
       </Box>
       <Box sx={{ flex: 1, order: 2, flexDirection: "column" }}>
-        {variant === "compact" && (
+        {variant !== "compact" && (
           <Box
             sx={{ display: "flex", flexDirection: "row", p: 1, pt: 0, pb: 0 }}
           >
@@ -124,4 +121,4 @@ export default function DayCard({
       </Box>
     </Box>
   );
-}
+});

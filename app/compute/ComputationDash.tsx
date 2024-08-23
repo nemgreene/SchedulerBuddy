@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { DateSlice } from "../Redux/DateSlice";
-import { StructuredData, Phenome, TimelineData } from "../utilities/interfaces";
+import {
+  StructuredData,
+  Phenome,
+  TimelineData,
+  DayInterface,
+  KeyInterface,
+} from "../utilities/interfaces";
 import {
   intializePopulation,
   structureData,
@@ -10,17 +16,23 @@ import {
   populationSize,
   fitnessFunction,
   crossoverFunction,
+  constructFiltered,
 } from "./utilities";
 import ComputationDisplayTable from "./ComputationDisplayTable";
+import { Button } from "@mui/material";
+import { setStorePhenome } from "../Redux/PhenomeSlice";
 
 export default function ComputationDash() {
-  const [phenome, setPhenome] = useState<Phenome>({});
+  const dispatch = useDispatch();
 
-  const { data, timeSlots, snapIncrement } = useSelector(
-    (v: { dates: DateSlice }) => {
-      return v.dates;
-    }
-  );
+  const {
+    dates: { data, snapIncrement, timeSlots },
+    phenome: { phenome },
+  } = useSelector((v: { dates: DateSlice; phenome: Phenome }) => {
+    return { phenome: v.phenome, dates: v.dates };
+  }, shallowEqual);
+
+  const [filterKey, setFilterKey] = useState<KeyInterface>("allocations");
 
   const structuredData: StructuredData = structureData(data);
   const timelineData: TimelineData = timelineStructuredData(
@@ -49,25 +61,35 @@ export default function ComputationDash() {
   var geneticalgorithm = GeneticAlgorithmConstructor(config);
 
   const handleEvolve = () => {
-    // console.log(geneticalgorithm.bestScore());
+    // for (let count = 0; count < 50; count++) {
+    // console.log(count);
     // geneticalgorithm.evolve();
-    // geneticalgorithm.evolve();
-    for (var loop = 1; loop <= 100; loop++) {
-      geneticalgorithm.evolve();
-    }
-    // console.log(geneticalgorithm.best());
-    // console.log(geneticalgorithm.bestScore());
-    // console.log(timelineDestructuredData(geneticalgorithm.best()));
-    const best: Phenome = geneticalgorithm.best();
-    setPhenome(best);
+    // }
+    console.log(geneticalgorithm.bestScore());
+    dispatch(
+      setStorePhenome({
+        phenome: constructFiltered(geneticalgorithm.best(), filterKey),
+      })
+    );
   };
-  useEffect(() => {
-    handleEvolve();
-  }, []);
+
+  const updateFilter = (key) => {
+    dispatch(
+      setStorePhenome({
+        phenome: constructFiltered(geneticalgorithm.best(), key),
+      })
+    );
+  };
 
   return (
     <div>
-      <ComputationDisplayTable phenome={phenome} />
+      <Button onClick={() => handleEvolve()}>Click</Button>
+      <ComputationDisplayTable
+        phenome={phenome}
+        updateFilter={updateFilter}
+        filterKey={filterKey}
+        setFilterKey={setFilterKey}
+      />
     </div>
   );
 }

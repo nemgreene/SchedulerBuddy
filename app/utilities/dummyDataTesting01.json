@@ -7,8 +7,7 @@
         {
           "ratio": [1, 2],
           "timeStart": "09:00",
-          "timeEnd": "10:00",
-          "headCount": 8,
+          "timeEnd": "11:00",
           "matrix": {
             "I+": [],
             "I-": [],
@@ -19,19 +18,90 @@
             ],
             "P-": []
           }
+        },
+        {
+          "ratio": [1, 1],
+          "timeStart": "11:00",
+          "timeEnd": "12:15",
+          "matrix": {
+            "I+": [{ "id": "location_y6", "name": "Y6" }],
+            "I-": [{ "id": "allocation_nkhaius", "name": "NKhaius" }],
+            "P+": [
+              { "id": "asset_cameron", "name": "Cameron" },
+              { "id": "asset_riley", "name": "Riley" }
+            ],
+            "P-": [{ "id": "asset_walker", "name": "Walker" }]
+          }
+        },
+        {
+          "ratio": [1, 5],
+          "timeStart": "12:15",
+          "timeEnd": "13:00",
+          "matrix": {
+            "I+": [{ "id": "location_ict", "name": "ICT" }],
+            "I-": [],
+            "P+": [
+              { "id": "asset_cameron", "name": "Cameron" },
+              { "id": "asset_riley", "name": "Riley" }
+            ],
+            "P-": []
+          }
+        },
+        {
+          "ratio": [1, 1],
+          "timeStart": "13:00",
+          "timeEnd": "15:00",
+          "matrix": {
+            "I+": [],
+            "I-": [],
+            "P+": [
+              { "id": "asset_cameron", "name": "Cameron" },
+              { "id": "asset_riley", "name": "Riley" },
+              { "id": "location_y6", "name": "Y6" }
+            ],
+            "P-": []
+          }
         }
       ]
     },
-
     {
       "name": "Rushani",
       "id": "allocation_rushani",
       "blocks": [
         {
-          "headCount": 2,
-          "ratio": [2, 1],
+          "ratio": [1, 2],
           "timeStart": "09:00",
-          "timeEnd": "10:00",
+          "timeEnd": "11:00",
+          "matrix": {
+            "I+": [],
+            "I-": [],
+            "P+": [
+              { "id": "asset_obrien", "name": "O'Brien" },
+              { "id": "asset_riley", "name": "Riley" },
+              { "id": "location_amex", "name": "amex" }
+            ],
+            "P-": []
+          }
+        },
+        {
+          "ratio": [2, 1],
+          "timeStart": "11:00",
+          "timeEnd": "11:45",
+          "matrix": {
+            "I+": [],
+            "I-": [],
+            "P+": [
+              { "id": "asset_obrien", "name": "O'Brien" },
+              { "id": "asset_riley", "name": "Riley" },
+              { "id": "location_y6", "name": "Y6" }
+            ],
+            "P-": []
+          }
+        },
+        {
+          "ratio": [1, 1],
+          "timeStart": "11:45",
+          "timeEnd": "12:15",
           "matrix": {
             "I+": [],
             "I-": [],
@@ -53,7 +123,17 @@
       "blocks": [
         {
           "timeStart": "09:00",
-          "timeEnd": "10:00",
+          "timeEnd": "11:45",
+          "matrix": {
+            "I+": [],
+            "I-": [],
+            "P+": [{ "id": "allocation_nkhaius", "name": "N'khaius" }],
+            "P-": []
+          }
+        },
+        {
+          "timeStart": "12:15",
+          "timeEnd": "15:00",
           "matrix": {
             "I+": [],
             "I-": [],
@@ -69,23 +149,7 @@
       "blocks": [
         {
           "timeStart": "09:00",
-          "timeEnd": "10:00",
-          "matrix": {
-            "I+": [],
-            "I-": [],
-            "P+": [{ "id": "allocation_rayyan", "name": "Rayan" }],
-            "P-": []
-          }
-        }
-      ]
-    },
-    {
-      "name": "Riley",
-      "id": "asset_riley",
-      "blocks": [
-        {
-          "timeStart": "09:00",
-          "timeEnd": "10:00",
+          "timeEnd": "15:00",
           "matrix": {
             "I+": [],
             "I-": [],
@@ -100,9 +164,9 @@
     {
       "name": "ICT",
       "id": "location_ICT",
+      "capacity": 10,
       "blocks": [
         {
-          "capacity": 8,
           "timeStart": "09:00",
           "timeEnd": "11:45",
           "matrix": {
@@ -113,7 +177,6 @@
           }
         },
         {
-          "capacity": 8,
           "timeStart": "12:15",
           "timeEnd": "15:00",
           "matrix": {
@@ -128,6 +191,7 @@
     {
       "name": "Hive",
       "id": "location_hive",
+      "capacity": 10,
       "blocks": [
         {
           "timeStart": "09:00",
@@ -156,6 +220,7 @@
     {
       "name": "Amex",
       "id": "location_amex",
+      "capacity": 10,
       "blocks": [
         {
           "timeStart": "09:00",

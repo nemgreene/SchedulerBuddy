@@ -3,17 +3,21 @@ import {
   AllocationBlockInterface,
   DayInterface,
   KeyInterface,
+  OutputInterface,
   Phenome,
   PhenomeBlock,
   StructuredData,
   TimelineData,
 } from "../utilities/interfaces";
 import dummyData from "../utilities/DummyDataTesting02.json";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import DayContainer from "../timetable/DayContainer";
+import React, { ReactNode } from "react";
+import DayAperture from "../timetable/DayAperture";
+import DayCard from "../timetable/DayCard";
 
 var moment = require("moment"); // require
-export const populationSize = 3;
+export const populationSize = 100;
 export const params = {
   blockMutationPercentage: 0.3, //Used in the mutation function, this represents the percentage of mutated PhenomeBlocks
   populationSize,
@@ -600,4 +604,81 @@ export const assessHasLocationHasAsset = (block: PhenomeBlock) => {
  * @param phenome {Phenome}
  * @param key {KeyInterface} Key to sort timelines by
  * @returns
- */
+ */ export const constructFiltered = (
+  phenome: Phenome,
+  key: KeyInterface,
+  test: boolean = false
+): {} | OutputInterface => {
+  const keys: KeyInterface[] = ["assets", "allocations", "locations"];
+  //flatten data into single array
+  console.log(phenome);
+  let timeSteps = Object.keys(phenome);
+  const flat = timeSteps
+    .reduce((acc, curr) => [...acc, ...phenome[curr]], [])
+    .map((v) => v);
+  // .sort((a, b) => (a.name[key] > b.name ? 1 : -1));
+  //get unique Assets/Allocations/Locations
+  const uniqueKey = Array.from(new Set(flat.map((v) => v[key]?.name))).filter(
+    (v) => v
+  );
+  //Construct dict for referencing, removing duplicates created by elevated ratio
+  const ret: { [key: KeyInterface]: AllocationBlockInterface[] } | {} = {};
+  uniqueKey.forEach((uniqueName) => {
+    ret[uniqueName] = {};
+
+    keys.forEach((localKeyname) => {
+      ret[uniqueName][localKeyname] = Array.from(
+        new Set(
+          flat
+            .filter((v) => v[key]?.name === uniqueName)
+            .map((v) => JSON.stringify(v[localKeyname] || {}))
+        )
+      )
+        .map((v) => {
+          return Object.keys(v).length > 0 ? JSON.parse(v) : {};
+        })
+        //sort time blocks by name first to capture concurrency, then by time in groups
+        .sort((a, b) => {
+          if (a.name === b.name) {
+            return moment(a.timeStart, "HH:mm").diff(
+              moment(b.timeStart, "HH:mm")
+            );
+          }
+          return a.name > b.name ? 1 : -1;
+        })
+        // //find concurrent time blocks and reduce down
+        .reduce((acc, curr, _, array) => {
+          if (JSON.stringify(curr) === "{}") {
+            return acc;
+          }
+          const prev = { ...acc.slice(-1)[0] } || undefined;
+          const {
+            timeStart: prevTimeStart,
+            timeEnd: prevTimeEnd,
+            ...prevRest
+          } = prev;
+          const {
+            timeStart: currTimeStart,
+            timeEnd: currTimeEnd,
+            ...currRest
+          } = curr;
+          if (
+            prev &&
+            prevTimeEnd &&
+            currTimeStart &&
+            prevTimeEnd === currTimeStart &&
+            JSON.stringify(prevRest) == JSON.stringify(currRest)
+          ) {
+            const ret = [
+              ...acc.slice(0, -1),
+              { ...prev, timeEnd: currTimeEnd },
+            ];
+            return ret;
+          }
+          return [...acc, curr];
+        }, []);
+    });
+  });
+  console.log(ret);
+  return ret;
+};

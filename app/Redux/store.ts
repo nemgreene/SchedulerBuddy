@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dateSlice from "./DateSlice";
+import PhenomeSlice from "./PhenomeSlice";
 
 export const store = configureStore({
   reducer: {
     dates: dateSlice,
+    phenome: PhenomeSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

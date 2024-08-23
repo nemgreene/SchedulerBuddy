@@ -6,7 +6,7 @@ import moment from "moment";
 import {
   AllocationBlockInterface,
   AllocationInterface,
-  ComputeInterface,
+  DayCardVariant,
   NiceNames,
   Phenome,
   PhenomeBlock,
@@ -20,69 +20,58 @@ export default function DayContainer({
   data,
   niceNames,
   disabled,
+  variant = "default",
 }: {
   data: AllocationInterface | { blocks: PhenomeBlock[]; name?: string };
   niceNames: NiceNames[];
   disabled: boolean;
+  variant?: DayCardVariant;
 }) {
   const { startTime, endTime } = useSelector((v: { dates: DateSlice }) => {
     return v.dates;
   });
 
-  const { name, blocks } = data;
+  const heightDict = {
+    compact: "50px",
+    default: "150px",
+  };
 
+  const { name, blocks } = data;
   return (
     <Box
       sx={{
         position: "relative",
-        // overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        width: "75vw",
+        width: "100%",
+        height: heightDict[variant],
       }}
     >
       {name}
-
-      <Box
-        sx={{
-          flexWrap: "nowrap",
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          position: "relative",
-          height: "100px",
-        }}
-      >
-        {blocks?.map((v, i, a) => {
-          if (v.allocations && v.assets && v.locations) {
+      <DayAperture disabled={disabled}>
+        <Box
+          sx={{
+            flexWrap: "nowrap",
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            position: "relative",
+            height: heightDict[variant],
+          }}
+        >
+          {blocks?.map((v, i, a) => {
             return (
-              <React.Fragment key={i}>
-                <DayCard
-                  key={i}
-                  data={v.allocations}
-                  niceNames={niceNames}
-                  height={100 / 3}
-                />
-                <DayCard
-                  data={v.locations}
-                  niceNames={niceNames}
-                  height={100 / 3}
-                  yOffset={100}
-                />
-                <DayCard
-                  data={v.assets}
-                  niceNames={niceNames}
-                  height={100 / 3}
-                  yOffset={200}
-                />
-              </React.Fragment>
+              <DayCard
+                key={i}
+                data={v}
+                niceNames={niceNames}
+                variant={variant}
+              />
             );
-          }
-          return <DayCard key={i} data={v} niceNames={niceNames} />;
-        })}
-      </Box>
-      {/* <DayAperture disabled={disabled} /> */}
-      <Divider />
+          })}
+        </Box>
+      </DayAperture>
+      {/* <Divider /> */}
     </Box>
   );
 }
