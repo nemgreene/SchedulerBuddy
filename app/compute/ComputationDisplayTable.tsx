@@ -32,7 +32,7 @@ export default function ComputationDisplayTable({
       <React.Fragment>
         {Object.keys(ret).map((name, i) => {
           return (
-            <Grid item container xs={12} key={i}>
+            <Grid item container xs={12} key={i} sx={{ padding: "5px" }}>
               <Grid item xs={12}>
                 {name}
               </Grid>
@@ -56,7 +56,7 @@ export default function ComputationDisplayTable({
                               flexDirection: "row",
                               position: "relative",
                               // height: heightDict[variant],
-                              height: "100px",
+                              height: "50px",
                             }}
                           >
                             {blocks?.map((v, i, a) => {

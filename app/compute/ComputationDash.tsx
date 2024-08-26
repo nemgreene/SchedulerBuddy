@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { DateSlice } from "../Redux/DateSlice";
+import { DateSlice } from "../lib/features/DateSlice";
 import {
   StructuredData,
   Phenome,
@@ -20,7 +20,7 @@ import {
 } from "./utilities";
 import ComputationDisplayTable from "./ComputationDisplayTable";
 import { Button } from "@mui/material";
-import { setStorePhenome } from "../Redux/PhenomeSlice";
+import { setStorePhenome } from "../lib/features/PhenomeSlice";
 
 export default function ComputationDash() {
   const dispatch = useDispatch();

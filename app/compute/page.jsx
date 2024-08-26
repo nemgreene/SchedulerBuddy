@@ -4,7 +4,7 @@ import React from "react";
 import TimetableContainer from "../timetable/TimetableContainer";
 import { Provider, useSelector } from "react-redux";
 import { store } from "../Redux/store";
-import { DateSlice } from "../Redux/DateSlice";
+import { DateSlice } from "../lib/features/DateSlice";
 import ComputationDash from "./ComputationDash";
 
 export default function page() {

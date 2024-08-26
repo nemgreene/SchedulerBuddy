@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { Phenome } from "../utilities/interfaces";
+import { Phenome } from "../../utilities/interfaces";
 
 export interface PhenomeSlice {
   phenome: {};

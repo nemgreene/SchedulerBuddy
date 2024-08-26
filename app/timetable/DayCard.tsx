@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
-import { DateSlice } from "../Redux/DateSlice";
+import { DateSlice } from "../lib/features/DateSlice";
 import {
   AllocationBlockInterface,
   DayCardVariant,

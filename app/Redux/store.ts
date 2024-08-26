@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import dateSlice from "./DateSlice";
-import PhenomeSlice from "./PhenomeSlice";
+import dateSlice from "../lib/features/DateSlice";
+import PhenomeSlice from "../lib/features/PhenomeSlice";
 
 export const store = configureStore({
   reducer: {

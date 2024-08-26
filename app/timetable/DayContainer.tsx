@@ -14,7 +14,7 @@ import {
 import DayAperture from "./DayAperture";
 import DayCard from "./DayCard";
 import { useSelector } from "react-redux";
-import { DateSlice } from "../Redux/DateSlice";
+import { DateSlice } from "../lib/features/DateSlice";
 
 export default function DayContainer({
   data,
@@ -24,12 +24,12 @@ export default function DayContainer({
 }: {
   data: AllocationInterface | { blocks: PhenomeBlock[]; name?: string };
   niceNames: NiceNames[];
-  disabled: boolean;
+  disabled?: boolean;
   variant?: DayCardVariant;
 }) {
-  const { startTime, endTime } = useSelector((v: { dates: DateSlice }) => {
-    return v.dates;
-  });
+  // const { startTime, endTime } = useSelector((v: { dates: DateSlice }) => {
+  //   return v.dates;
+  // });
 
   const heightDict = {
     compact: "50px",
@@ -45,9 +45,10 @@ export default function DayContainer({
         flexDirection: "column",
         width: "100%",
         height: heightDict[variant],
+        mt: 3,
+        mb: 1,
       }}
     >
-      {name}
       <DayAperture disabled={disabled}>
         <Box
           sx={{

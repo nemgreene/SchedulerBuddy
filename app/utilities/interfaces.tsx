@@ -38,6 +38,7 @@ export interface AllocationBlockInterface {
 export interface AllocationInterface {
   name: string;
   id: string;
+  matrix?: MatrixInterface;
   blocks: Array<AllocationBlockInterface>;
 }
 

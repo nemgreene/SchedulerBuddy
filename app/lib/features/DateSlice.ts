@@ -3,8 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import * as moment from "moment";
 import { extendMoment } from "moment-range";
-import { DayInterface } from "../utilities/interfaces";
-import data from "../utilities/dummyDataTesting01.json";
+import { DayInterface } from "../../utilities/interfaces";
+import data from "../../utilities/dummyDataTesting01.json";
 // import data from "../utilities/dummyData.json";
 const extendedMoment = extendMoment(moment);
 

@@ -1,13 +1,13 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import React from "react";
 import moment from "moment";
 import { useGesture } from "@use-gesture/react";
 import { animated, useSpring } from "@react-spring/web";
 import useMeasure from "react-use-measure";
 import { useSelector } from "react-redux";
-import { DateSlice } from "../Redux/DateSlice";
+import { DateSlice } from "../lib/features/DateSlice";
 import DayTable from "./DayTable";
 import type { ReactDOMAttributes } from "@use-gesture/react/dist/declarations/src/types";
 
@@ -24,6 +24,7 @@ export default function DayAperture({
 
   const [steppedTime, setSteppedTime] = React.useState<moment.Moment>(moment());
   const [dragging, setDragging] = React.useState<number | undefined>(undefined);
+  const [hovered, setHovered] = React.useState<boolean>(false);
 
   const [ref, bounds] = useMeasure();
 
@@ -150,12 +151,20 @@ export default function DayAperture({
 
   const bindMove = useGesture(
     disabled
-      ? {}
+      ? {
+          onMove: handleMove,
+          onHover: ({ hovering }) => {
+            setHovered(hovering);
+            labelApi.start({ opacity: hovering ? 1 : 0, immediate: true });
+            // labelApi.start({ opacity: hovering ? 1 : 1 });
+          },
+        }
       : {
           onDragStart: handleDragStart,
           onDragEnd: handleDragEnd,
           onMove: handleMove,
           onHover: ({ hovering }) => {
+            setHovered(hovering);
             labelApi.start({ opacity: hovering ? 1 : 0 });
             // labelApi.start({ opacity: hovering ? 1 : 1 });
           },
@@ -167,11 +176,10 @@ export default function DayAperture({
       {...bindMove()}
       sx={{
         // border: "1px solid black",
-        width: "70vw",
+        width: "100%",
         // overflow: "hidden",
         p: 0,
         m: 0,
-        ml: 10,
         touchAction: "none",
         flex: 1,
         position: "relative",
@@ -215,7 +223,26 @@ export default function DayAperture({
           zIndex: 100,
         }}
       >
-        {steppedTime.format("HH:mm")}
+        <Tooltip
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: "offset",
+                  options: {
+                    offset: [0, -10],
+                  },
+                },
+              ],
+            },
+          }}
+          arrow
+          placement="top"
+          open={hovered}
+          title={steppedTime.format("HH:mm")}
+        >
+          <Box></Box>
+        </Tooltip>
       </animated.div>
       {/* <Box sx={{ flex: 1 }}> */}
       {/* <Box sx={{ position: "absolute", height: "100%" }}>{children}</Box> */}
